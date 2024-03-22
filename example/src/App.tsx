@@ -1,18 +1,25 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-awesome-contacts-library';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { TurboContacts } from 'react-native-awesome-contacts-library';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
+  const [hasPermission, setHasPermission] = React.useState<boolean>(
+    TurboContacts.hasContactsPermission()
+  );
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text>TurboContacts Permission Status: {String(hasPermission)}</Text>
+      {!TurboContacts.hasContactsPermission() && (
+        <Pressable
+          onPress={() => {
+            TurboContacts.requestContactsPermission().then(setHasPermission);
+          }}
+        >
+          <Text>Request permission</Text>
+        </Pressable>
+      )}
     </View>
   );
 }

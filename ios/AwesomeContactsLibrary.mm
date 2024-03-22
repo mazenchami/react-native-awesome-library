@@ -3,16 +3,32 @@
 @implementation AwesomeContactsLibrary
 RCT_EXPORT_MODULE()
 
-// Example method
-// See // https://reactnative.dev/docs/native-modules-ios
-RCT_EXPORT_METHOD(multiply:(double)a
-                  b:(double)b
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject)
-{
-    NSNumber *result = @(a * b);
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.contactsStore = [[CNContactStore alloc] init];
+    }
+    return self;
+}
 
-    resolve(result);
++ (BOOL)requiresMainQueueSetup
+{
+  return NO;
+}
+
+- (NSNumber *)hasContactsPermission {
+    CNAuthorizationStatus authorizationStatus = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+
+    return @(authorizationStatus == CNAuthorizationStatusAuthorized);
+}
+
+- (void)requestContactsPermission:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+    [self.contactsStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError *error) {
+       if (error) {
+            return reject(@"Error", @"An Error occurred while requesting permission", error);
+       }
+       resolve(@(granted));
+    }];
 }
 
 // Don't compile this code when we build for the old architecture.

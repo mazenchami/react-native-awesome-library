@@ -1,4 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
+import { type Spec } from './NativeAwesomeContactsLibrary';
 
 const LINKING_ERROR =
   `The package 'react-native-awesome-contacts-library' doesn't seem to be linked. Make sure: \n\n` +
@@ -24,6 +25,4 @@ const AwesomeContactsLibrary = AwesomeContactsLibraryModule
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return AwesomeContactsLibrary.multiply(a, b);
-}
+export const TurboContacts = AwesomeContactsLibrary as Spec;
