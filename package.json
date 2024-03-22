@@ -1,6 +1,6 @@
 {
   "name": "react-native-awesome-contacts-library",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "native module that pulls contacts",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
