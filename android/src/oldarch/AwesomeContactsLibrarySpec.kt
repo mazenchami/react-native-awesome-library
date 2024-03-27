@@ -6,4 +6,6 @@ import com.facebook.react.bridge.Promise
 
 abstract class AwesomeContactsLibrarySpec internal constructor(context: ReactApplicationContext) :
   ReactContextBaseJavaModule(context) {
+    abstract fun hasContactsPermission(): Boolean
+    abstract fun requestContactsPermission(promise: Promise)
 }
