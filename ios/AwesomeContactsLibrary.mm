@@ -16,13 +16,13 @@ RCT_EXPORT_MODULE()
   return NO;
 }
 
-- (NSNumber *)hasContactsPermission {
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(hasContactsPermission) {
     CNAuthorizationStatus authorizationStatus = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
 
     return @(authorizationStatus == CNAuthorizationStatusAuthorized);
 }
 
-- (void)requestContactsPermission:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+RCT_EXPORT_METHOD(requestContactsPermission:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject) {
     [self.contactsStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError *error) {
        if (error) {
             return reject(@"Error", @"An Error occurred while requesting permission", error);

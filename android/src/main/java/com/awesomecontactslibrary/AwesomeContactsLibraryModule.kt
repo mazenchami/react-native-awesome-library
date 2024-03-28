@@ -18,12 +18,14 @@ class AwesomeContactsLibraryModule internal constructor(context: ReactApplicatio
     return NAME
   }
 
+  @ReactMethod
   override fun hasContactsPermission(): Boolean {
     val permission = reactApplicationContext.checkSelfPermission(Manifest.permission.READ_CONTACTS)
     
     return permission == PackageManager.PERMISSION_GRANTED
   }
 
+  @ReactMethod
   override fun requestContactsPermission(promise: Promise) {
     if (this.promise != null) {
       return
